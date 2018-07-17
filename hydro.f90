@@ -65,7 +65,6 @@ SUBROUTINE hydro
 
     advect_x = .NOT. advect_x
   
-    time = time + dt
 
     IF(summary_frequency.NE.0) THEN
       IF(MOD(step, summary_frequency).EQ.0) CALL field_summary()
@@ -73,6 +72,11 @@ SUBROUTINE hydro
     IF(visit_frequency.NE.0) THEN
       IF(MOD(step, visit_frequency).EQ.0) CALL visit()
     ENDIF
+    IF(sensei_frequency.NE.0) THEN
+      IF(MOD(step, sensei_frequency).EQ.0) CALL sensei()
+    ENDIF
+
+    time = time + dt
 
     ! Sometimes there can be a significant start up cost that appears in the first step.
     ! Sometimes it is due to the number of MPI tasks, or OpenCL kernel compilation.
@@ -86,6 +90,7 @@ SUBROUTINE hydro
       complete=.TRUE.
       CALL field_summary()
       IF(visit_frequency.NE.0) CALL visit()
+      IF(sensei_frequency.NE.0) CALL sensei()
 
       wall_clock=timer() - timerstart
       IF ( parallel%boss ) THEN

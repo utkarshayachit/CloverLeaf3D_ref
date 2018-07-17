@@ -119,7 +119,8 @@ MODULE definitions_module
                   ,dtdiv
 
    INTEGER      :: visit_frequency   &
-                  ,summary_frequency
+                  ,summary_frequency &
+                  ,sensei_frequency
 
    INTEGER         :: jdt,kdt
 

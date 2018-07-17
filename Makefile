@@ -122,6 +122,14 @@ CFLAGS=$(CFLAGS_$(COMPILER)) $(OMP) $(I3E) $(C_OPTIONS) -c
 MPI_COMPILER=mpif90
 C_MPI_COMPILER=mpicc
 
+ifdef SENSEI_ROOT
+	SENSEI_FLAGS = sensei.f90    \
+								 -L $(SENSEI_ROOT)/lib -l cloverleaf3d_sensei \
+								 -Wl,-rpath,$(SENSEI_ROOT)/lib
+else
+	SENSEI_FLAGS = sensei_dummy.f90
+endif
+
 clover_leaf: c_lover *.f90 Makefile
 	$(MPI_COMPILER) $(FLAGS)	\
 	data.f90			\
@@ -170,6 +178,7 @@ clover_leaf: c_lover *.f90 Makefile
 	hydro.f90			\
 	visit.f90			\
 	clover_leaf.f90			\
+	$(SENSEI_FLAGS) \
 	timer_c.o                       \
 	-o clover_leaf; echo $(MESSAGE)
 

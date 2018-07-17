@@ -56,6 +56,7 @@ SUBROUTINE read_input()
 
   visit_frequency=0
   summary_frequency=10
+  sensei_frequency=0
   tiles_per_chunk=1
 
   dtinit=0.1_8
@@ -178,6 +179,9 @@ SUBROUTINE read_input()
       CASE('visit_frequency')
         visit_frequency=parse_getival(parse_getword(.TRUE.))
         IF(parallel%boss)WRITE(g_out,"(1x,a25,i12)")'visit_frequency',visit_frequency
+      CASE('sensei_frequency')
+        sensei_frequency=parse_getival(parse_getword(.TRUE.))
+        IF(parallel%boss)WRITE(g_out,"(1x,a25,i12)")'sensei_frequency',sensei_frequency
       CASE('summary_frequency')
         summary_frequency=parse_getival(parse_getword(.TRUE.))
         IF(parallel%boss)WRITE(g_out,"(1x,a25,i12)")'summary_frequency',summary_frequency
